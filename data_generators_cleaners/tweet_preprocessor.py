@@ -1,13 +1,13 @@
-#This script preproccesses tweets by doing the following
-# 1. Removes URLs
-# 2. Changes mentions to USER
-# 3. Removes stop words 'a', 'is', 'with', 'in', 'the'
-# 4. Keeps only the word after the # symbol if the word after the # symbol appears in the nltk dictionary 
-# 5. Removes punctuation
+#Tập lệnh này xử lý trước các tweet bằng cách thực hiện như sau
+# 1. Xóa URL
+# 2. Thay đổi đề cập tới NGƯỜI DÙNG
+# 3. Loại bỏ các từ dừng 'a', 'is', 'with', 'in', 'the'
+# 4. Chỉ giữ lại từ sau ký hiệu # nếu từ sau ký hiệu # xuất hiện trong từ điển nltk
+#5. Bỏ dấu câu
 
 #import
 import pandas as pd
-import nltk
+import nltk #Thư viện tiếng Anh phổ biến trong xử lý ngôn ngữ tự nhiên (NLP).
 from nltk import word_tokenize, sent_tokenize, FreqDist
 from nltk.corpus import stopwords
 from nltk.corpus import words
@@ -30,6 +30,7 @@ lemmatizer = nltk.stem.WordNetLemmatizer()
 tokenizer = TweetTokenizer()
 detokeniser = TreebankWordDetokenizer()
 
+#xóa dấu câu
 def remove_punctuation(words):
     new_words = []
     for word in words:
@@ -38,6 +39,7 @@ def remove_punctuation(words):
            new_words.append(new_word)
     return new_words
 
+#tách văn bản thành danh sách các từ và lemmatization trên từng từ trong văn bản đó.
 def lemmatize_text(text):
     return [(lemmatizer.lemmatize(w)) for w in tokenizer.tokenize((text))]
 
