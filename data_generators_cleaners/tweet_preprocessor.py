@@ -26,9 +26,9 @@ from multiprocessing import Manager
 import multiprocessing
 import os
 
-lemmatizer = nltk.stem.WordNetLemmatizer()
-tokenizer = TweetTokenizer()
-detokeniser = TreebankWordDetokenizer()
+lemmatizer = nltk.stem.WordNetLemmatizer() #chuản hóa vd: running -> run
+tokenizer = TweetTokenizer() #tách từ
+detokeniser = TreebankWordDetokenizer() # nối lại
 
 #xóa dấu câu
 def remove_punctuation(words):
@@ -39,10 +39,11 @@ def remove_punctuation(words):
            new_words.append(new_word)
     return new_words
 
-#tách văn bản thành danh sách các từ và lemmatization trên từng từ trong văn bản đó.
+#tách văn bản thành danh sách các từ và chuẩn hóa trên từng từ trong văn bản đó.
 def lemmatize_text(text):
     return [(lemmatizer.lemmatize(w)) for w in tokenizer.tokenize((text))]
 
+#thực hiện quá trình giải mã để ghép lại các từ thành một đoạn văn bản.
 def detokenise_text(tokenised):
     return detokeniser.detokenize(tokenised)
 
@@ -50,6 +51,7 @@ def remove_URL(sample):
     return re.sub("(?P<url>https?://[^\s]+)", "", sample)
     
 word_set = set(words.words())
+# Lấy văn bản sau dấu "#" nếu từ đó xuất hiện trong từ điển của nltk.words
 def get_hashtag_text(word):
     global word_set
     #if not a hahstag return the word
@@ -83,6 +85,7 @@ def preprocess_tweet(tweet):
     return detokenise_text(tokenised)
     
 
+#xử lý tweet từ một phần của tập dữ liệu: Đọc dữ liệu từ tập tin CSV và áp dụng hàm preprocess_tweet cho cột 'text'.
 def thread_func(start_index, end_index, i):
     print("Starting process", i, ": start index", start_index, "end index", end_index)
     
